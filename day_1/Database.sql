@@ -1,13 +1,31 @@
 create database car_parking;
 use car_parking;
 
+-- Tạo bảng Parking
+create table parking_car(
+parking_id int auto_increment primary key,
+floors int
+); 
+
+-- Tạo bảng "Floor"
+Create table floor_parking(
+floor_id int auto_increment primary key,
+capacity int,
+parking_id int,
+ FOREIGN KEY (parking_id) REFERENCES parking_car(parking_id)
+);
 
 -- Tạo bảng "ParkingSlot" để lưu thông tin về từng vị trí đỗ xe trong bãi đỗ
 CREATE TABLE parking_slot (
-  parking_id INT PRIMARY KEY,
+  parking_id INT auto_increment PRIMARY KEY,
   slot_number VARCHAR(10),
-  availability BOOLEAN
+  availability bit(1),
+  price_parking_slot bigint,
+  floor_id int,
+   FOREIGN KEY (floor_id) REFERENCES floor_parking(floor_id)
 );
+
+
 
 
 
@@ -32,8 +50,8 @@ CREATE TABLE customer (
   `name` VARCHAR(100),
   email VARCHAR(100),
   phone VARCHAR(20),
-  number_plate varchar(10),
   account_id int,
+  purse bigint,
   FOREIGN KEY (account_id) REFERENCES account(account_id)
 );
 
@@ -48,12 +66,23 @@ account_id int,
 
 -- Tạo bảng "Reservation" để lưu thông tin về việc đặt chỗ đỗ xe
 CREATE TABLE reservation (
-  id INT PRIMARY KEY,
+  id INT auto_increment PRIMARY KEY,
   parking_id INT,
-  customer_id INT,
+  account_id INT,
   start_time DATETIME,
   end_time DATETIME,
   price bigint,
+  number_plate varchar(10),
   FOREIGN KEY (parking_id) REFERENCES parking_slot(parking_id),
-  FOREIGN KEY (customer_id) REFERENCES customer(customer_id)
+  FOREIGN KEY (account_id) REFERENCES account(account_id)
 );
+
+-- phạt vi phạm
+create table penalty(
+penalty_id int auto_increment primary key,
+penalty_price bigint,
+penalty_hour int,
+id INT,
+ FOREIGN KEY (id) REFERENCES reservation(id)
+);
+
