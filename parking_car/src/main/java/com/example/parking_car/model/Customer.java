@@ -1,7 +1,7 @@
 package com.example.parking_car.model;
 
 import javax.persistence.*;
-import javax.transaction.Transactional;
+import java.util.Date;
 
 @Entity
 public class Customer {
@@ -10,8 +10,15 @@ public class Customer {
     private Long id;
     private String name;
     private String email;
+    private String idCard;
     private String phone;
+    private String licensePlates;
     private float purse;
+    private String verificationCode;
+
+    private boolean enabled;
+    private Date expiryDate;
+    private boolean flagDelete;
 
     @OneToOne
     private Account account;
@@ -19,13 +26,67 @@ public class Customer {
     public Customer() {
     }
 
-    public Customer(Long id, String name, String email, String phone, float purse, Account account) {
+    public Customer(Long id, String name, String email, String idCard, String phone, String licensePlates, float purse, String verificationCode, boolean enabled, Date expiryDate, boolean flagDelete, Account account) {
         this.id = id;
         this.name = name;
         this.email = email;
+        this.idCard = idCard;
         this.phone = phone;
+        this.licensePlates = licensePlates;
         this.purse = purse;
+        this.verificationCode = verificationCode;
+        this.enabled = enabled;
+        this.expiryDate = expiryDate;
+        this.flagDelete = flagDelete;
         this.account = account;
+    }
+
+    public String getLicensePlates() {
+        return licensePlates;
+    }
+
+    public void setLicensePlates(String licensePlates) {
+        this.licensePlates = licensePlates;
+    }
+
+    public String getIdCard() {
+        return idCard;
+    }
+
+    public void setIdCard(String idCard) {
+        this.idCard = idCard;
+    }
+
+    public String getVerificationCode() {
+        return verificationCode;
+    }
+
+    public void setVerificationCode(String verificationCode) {
+        this.verificationCode = verificationCode;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public Date getExpiryDate() {
+        return expiryDate;
+    }
+
+    public void setExpiryDate(Date expiryDate) {
+        this.expiryDate = expiryDate;
+    }
+
+    public boolean isFlagDelete() {
+        return flagDelete;
+    }
+
+    public void setFlagDelete(boolean flagDelete) {
+        this.flagDelete = flagDelete;
     }
 
     public Long getId() {

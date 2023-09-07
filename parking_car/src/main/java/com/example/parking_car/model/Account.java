@@ -23,6 +23,17 @@ public class Account {
         this.role = role;
     }
 
+    public Account(String accountName, String password, Role role) {
+        this.accountName = accountName;
+        this.password = password;
+        this.role = role;
+    }
+
+    public Account(String accountName, String password) {
+        this.accountName = accountName;
+        this.password = password;
+    }
+
     public Long getId() {
         return id;
     }

@@ -1,6 +1,5 @@
 package com.example.parking_car.model;
 
-import com.sun.org.glassfish.gmbal.ManagedAttribute;
 
 import javax.persistence.*;
 
