@@ -12,6 +12,8 @@ import javax.mail.MessagingException;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 //import org.springframework.security.crypto.password.PasswordEncoder;
@@ -64,9 +66,20 @@ public class CustomerController {
         }
     }
 
+
+
     @GetMapping("/{email}")
     public ResponseEntity<?> getCustomer(@PathVariable("email") String email) {
         return new ResponseEntity<>(customerService.findCustomerByEmail(email), HttpStatus.OK);
+    }
+
+    @PutMapping("/{money}/{email}")
+    public ResponseEntity<?> recharge(@PathVariable("money")Long money,@PathVariable("email")String email){
+        Customer customer=customerService.findCustomerByEmail(email);
+        customer.setPurse((customer.getPurse()+money));
+        customerService.update(customer);
+        return new ResponseEntity<>( HttpStatus.OK);
+
     }
 
     private Date calculateExpiryDate() {

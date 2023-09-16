@@ -100,5 +100,10 @@ public class CustomerService implements ICustomerService{
         return customerRepo.findByEmail(email);
     }
 
+    @Override
+    public void update(Customer customer) {
+        customerRepo.save(customer);
+    }
+
 
 }

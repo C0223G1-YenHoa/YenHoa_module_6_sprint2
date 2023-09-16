@@ -11,22 +11,44 @@ public class Reservation {
     private String endTime;
     private float totalPrice;
     private String numberPlate;
+    private String idCard;
     @OneToOne
     private ParkingSlot parkingSlot;
     @ManyToOne
     private Account account;
 
+    @OneToOne
+    private Type type;
+
     public Reservation() {
     }
 
-    public Reservation(Long id, String startTime, String endTime, float totalPrice, String numberPlate, ParkingSlot parkingSlot, Account account) {
+    public Reservation(Long id, String startTime, String endTime, float totalPrice, String numberPlate, String idCard, ParkingSlot parkingSlot, Account account, Type type) {
         this.id = id;
         this.startTime = startTime;
         this.endTime = endTime;
         this.totalPrice = totalPrice;
         this.numberPlate = numberPlate;
+        this.idCard = idCard;
         this.parkingSlot = parkingSlot;
         this.account = account;
+        this.type = type;
+    }
+
+    public String getIdCard() {
+        return idCard;
+    }
+
+    public void setIdCard(String idCard) {
+        this.idCard = idCard;
+    }
+
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
     }
 
     public Long getId() {

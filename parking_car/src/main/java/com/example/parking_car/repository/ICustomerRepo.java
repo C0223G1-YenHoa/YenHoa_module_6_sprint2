@@ -10,4 +10,6 @@ public interface ICustomerRepo extends JpaRepository<Customer,Long> {
     Customer findByVerificationCode(String verify);
     Customer findByEmail(String email);
 
+
+
 }

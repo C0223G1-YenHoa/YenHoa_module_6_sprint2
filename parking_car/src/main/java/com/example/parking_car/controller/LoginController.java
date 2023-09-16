@@ -46,6 +46,12 @@ public class LoginController {
 
     }
 
+    @GetMapping("/{email}")
+    public ResponseEntity<?> getAccount( @PathVariable("email") String email){
+        return new ResponseEntity<>(accountService.findByEmail(email),HttpStatus.OK);
+    }
+
+
 //    @PreAuthorize("hasRole('ROLE_CUSTOMER')")
 //    @GetMapping("/aa")
 //    public ResponseEntity<?> aa (){

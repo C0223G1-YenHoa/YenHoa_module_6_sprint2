@@ -11,4 +11,6 @@ public interface ICustomerService{
     boolean verify(String verificationCode);
     Customer findCustomerByEmail(String email);
 
+    void update(Customer customer);
+
 }
