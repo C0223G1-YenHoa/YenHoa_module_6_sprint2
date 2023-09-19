@@ -4,6 +4,7 @@ import com.example.parking_car.model.Customer;
 import javax.mail.MessagingException;
 
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 
 public interface ICustomerService{
     void create(Customer customer);
@@ -13,4 +14,9 @@ public interface ICustomerService{
 
     void update(Customer customer);
 
+    Customer findByCode(String code);
+
+    List<Customer> getList();
+
+    void delete(Customer customer);
 }

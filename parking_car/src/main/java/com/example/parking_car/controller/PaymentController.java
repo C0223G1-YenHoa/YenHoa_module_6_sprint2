@@ -30,9 +30,6 @@ public class PaymentController {
             throws UnsupportedEncodingException {
 
         String orderType = "170000";
-//        long amount = Integer.parseInt(req.getParameter("amount"))*100;
-//        String bankCode = req.getParameter("bankCode");
-
 
         String amount = String.valueOf(total * 100);
 //        String amount = "10000000";
@@ -50,12 +47,7 @@ public class PaymentController {
         vnp_Params.put("vnp_OrderInfo", "Thanh toan don hang:" + vnp_TxnRef);
         vnp_Params.put("vnp_OrderType", orderType);
         vnp_Params.put("vnp_Locale", "vn");
-//        String locate = req.getParameter("language");
-//        if (locate != null && !locate.isEmpty()) {
-//            vnp_Params.put("vnp_Locale", locate);
-//        } else {
-//            vnp_Params.put("vnp_Locale", "vn");
-//        }
+
         vnp_Params.put("vnp_ReturnUrl", VnPay.vnp_Returnurl);
         vnp_Params.put("vnp_IpAddr", "0:0:0:0:0:0:0:1");
 
@@ -98,20 +90,4 @@ public class PaymentController {
         return new ResponseEntity<>(paymentUrl, HttpStatus.OK);
     }
 
-//    @PutMapping("/return/{username}/{listIdSeat}")
-//    public ResponseEntity<?> showReturn(@PathVariable String username,@PathVariable List<Integer> listIdSeat ) {
-//        Customer customer = customerService.getCustomerByAccount_Username(username);
-//        String date = String.valueOf(LocalDate.now());
-//        for (Integer i: listIdSeat) {
-//            Seat seat = seatService.getSeatByIdSeat(i);
-//            seat.setFlagPayment(true);
-//            seatService.save(seat);
-//            Ticket ticket = new Ticket();
-//            ticket.setDateBooking(date);
-//            ticket.setCustomer(customer);
-//            ticket.setSeat(seat);
-//            ticketService.save(ticket);
-//        }
-//        return new ResponseEntity<>(HttpStatus.OK);
-//    }
 }

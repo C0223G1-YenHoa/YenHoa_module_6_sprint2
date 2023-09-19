@@ -5,4 +5,5 @@ import com.example.parking_car.model.Account;
 public interface IAccountService {
     void createAccount(Account account);
     Account findByEmail(String email);
+    void deleteAcc(Account account);
 }

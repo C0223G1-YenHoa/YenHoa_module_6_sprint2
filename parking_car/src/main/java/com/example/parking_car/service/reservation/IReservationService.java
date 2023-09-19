@@ -6,10 +6,13 @@ import org.springframework.data.domain.Pageable;
 
 import javax.mail.MessagingException;
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 import java.util.Optional;
 
 public interface IReservationService {
     void create(Reservation reservation);
+
+    List<Reservation> getAll();
 
     Optional<Reservation> getReservation(Long id);
 

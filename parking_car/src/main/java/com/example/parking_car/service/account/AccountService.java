@@ -18,4 +18,9 @@ public class AccountService implements IAccountService{
     public Account findByEmail(String email) {
         return accountRepo.findByAccountNameContainsIgnoreCase(email);
     }
+
+    @Override
+    public void deleteAcc(Account account) {
+        accountRepo.delete(account);
+    }
 }

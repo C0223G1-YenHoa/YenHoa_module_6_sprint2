@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -24,6 +25,11 @@ public class ReservationService implements IReservationService{
     @Override
     public void create(Reservation reservation) {
         reservationRepo.save(reservation);
+    }
+
+    @Override
+    public List<Reservation> getAll() {
+        return reservationRepo.findAll();
     }
 
     @Override

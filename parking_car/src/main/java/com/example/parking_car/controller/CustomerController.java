@@ -41,6 +41,7 @@ public class CustomerController {
 
     @PostMapping("/{port}")
     public ResponseEntity<Customer> createCustomer(@RequestBody CustomerDto customerdto, @PathVariable("port") String port) throws MessagingException, UnsupportedEncodingException {
+        if(customerService.findCustomerByEmail(customerdto.getEmail())==null){
         Customer customer = new Customer();
         customerdto.setExpiryDate(calculateExpiryDate());
         BeanUtils.copyProperties(customerdto, customer);
@@ -55,17 +56,24 @@ public class CustomerController {
         customerService.create(customer);
         customerService.sendVerificationEmail(customer, port);
         return new ResponseEntity<>(HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @GetMapping("/verify/{code}")
     public ResponseEntity<?> verifyCustomer(@PathVariable("code") String code) {
-        if (customerService.verify(code)) {
-            return new ResponseEntity<>(HttpStatus.OK);
-        } else {
+        Customer customer = customerService.findByCode(code);
+        if (!customer.isEnabled()) {
+            if (customerService.verify(code)) {
+                return new ResponseEntity<>(HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        }else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-
 
 
     @GetMapping("/{email}")
@@ -74,11 +82,11 @@ public class CustomerController {
     }
 
     @PutMapping("/{money}/{email}")
-    public ResponseEntity<?> recharge(@PathVariable("money")Long money,@PathVariable("email")String email){
-        Customer customer=customerService.findCustomerByEmail(email);
-        customer.setPurse((customer.getPurse()+money));
+    public ResponseEntity<?> recharge(@PathVariable("money") Long money, @PathVariable("email") String email) {
+        Customer customer = customerService.findCustomerByEmail(email);
+        customer.setPurse(customer.getPurse() + (money / 100));
         customerService.update(customer);
-        return new ResponseEntity<>( HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
 
     }
 

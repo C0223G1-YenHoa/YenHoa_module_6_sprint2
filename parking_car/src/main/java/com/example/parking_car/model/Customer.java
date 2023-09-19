@@ -20,7 +20,9 @@ public class Customer {
     private Date expiryDate;
     private boolean flagDelete;
 
-    @OneToOne
+
+
+    @OneToOne(optional = false)
     private Account account;
 
     public Customer() {

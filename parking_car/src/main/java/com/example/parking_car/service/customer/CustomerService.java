@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import javax.mail.internet.MimeMessage;
 import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
+import java.util.List;
 
 @Service
 public class CustomerService implements ICustomerService{
@@ -84,12 +85,10 @@ public class CustomerService implements ICustomerService{
         Calendar cal = Calendar.getInstance();
         if (customer == null) {
             return false;
-        }else if((customer.getExpiryDate().getTime()- cal.getTime().getTime()) <= 0){
-            customerRepo.delete(customer);
-            return false;
         }else {
 //            customer.setVerificationCode(null);
             customer.setEnabled(true);
+            customer.setExpiryDate(null);
             customerRepo.save(customer);
             return true;
         }
@@ -103,6 +102,21 @@ public class CustomerService implements ICustomerService{
     @Override
     public void update(Customer customer) {
         customerRepo.save(customer);
+    }
+
+    @Override
+    public Customer findByCode(String code) {
+        return customerRepo.findByVerificationCode(code);
+    }
+
+    @Override
+    public List<Customer> getList() {
+        return customerRepo.findAll();
+    }
+
+    @Override
+    public void delete(Customer customer) {
+        customerRepo.delete(customer);
     }
 
 
