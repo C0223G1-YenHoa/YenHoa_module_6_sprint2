@@ -44,8 +44,8 @@ public class ReservationService implements IReservationService{
     }
 
     @Override
-    public Optional<Reservation> confirmQR(String idCard, Long slotId, Long total, String numberPlate, String start, String end) {
-        return reservationRepo.findByIdCardContainingAndParkingSlot_IdAndTotalPriceAndNumberPlateAndStartTimeAndEndTime(idCard, slotId, total, numberPlate, start, end);
+    public Optional<Reservation> confirmQR(String idCard, Long slotId, Long total, String numberPlate, String start, String end,Long floor) {
+        return reservationRepo.findByIdCardContainingAndParkingSlot_IdAndTotalPriceAndNumberPlateAndStartTimeAndEndTimeAndParkingSlotFloorParking_Id(idCard, slotId, total, numberPlate, start, end,floor);
     }
 
     @Override
@@ -94,5 +94,10 @@ public class ReservationService implements IReservationService{
         helper.setSubject(subject);
         helper.setText(content, true);
         mailSender.send(message);
+    }
+
+    @Override
+    public List<Reservation> findByIdFloorAndStartAndEnd(Long id, String start, String end) {
+        return reservationRepo.findByParkingSlot_FloorParking_IdAndStartTimeContainingAndEndTimeContaining(id, start, end);
     }
 }

@@ -48,7 +48,7 @@ public class Schedule {
             LocalDateTime end = LocalDateTime.parse(re.getEndTime(), formatter);
             Duration duration = Duration.between(now, end);
             if (duration.toHours() == 0 && duration.toMinutes() < 40 && duration.toMinutes() >= 30) {
-                expire.add(new Reservation(re.getEndTime(), re.getParkingSlot(), re.getAccount()));
+                expire.add(new Reservation(re.getEndTime(),re.getNumberPlate(), re.getParkingSlot(), re.getAccount()));
             }
         }
         System.out.println(expire.size());
@@ -77,4 +77,5 @@ public class Schedule {
             }
         }
     }
+
 }

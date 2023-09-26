@@ -9,6 +9,7 @@ import java.util.Optional;
 public interface IParkingSlotRepo extends JpaRepository<ParkingSlot,Long> {
     List<ParkingSlot> findByFloorParking_Id(Long id);
 
+
     Optional<ParkingSlot> findParkingSlotByIdAndVersionIsFalse(Long id);
 
     Optional<ParkingSlot> findById(Long id);

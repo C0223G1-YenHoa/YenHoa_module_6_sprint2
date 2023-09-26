@@ -21,34 +21,35 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin("*")
 public class LoginController {
     @Autowired
-    PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
     @Autowired
-    AuthenticationManager authenticationManager;
+    private AuthenticationManager authenticationManager;
     @Autowired
-    JwtProvider jwtProvider;
+    private JwtProvider jwtProvider;
     @Autowired
     private IAccountService accountService;
+
     @PostMapping("/login")
-    public ResponseEntity<?> login( @RequestBody Account account){
-        Account acc=accountService.findByEmail(account.getAccountName());
-        boolean match=passwordEncoder.matches(account.getPassword(),acc.getPassword());
-        if (match){
-                Authentication authentication = authenticationManager.authenticate(
-                        new UsernamePasswordAuthenticationToken(account.getAccountName(), account.getPassword())
-                );
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-                String token = jwtProvider.createToken(authentication);
-                UserPrinciple userPrinciple = (UserPrinciple) authentication.getPrincipal();
-                return ResponseEntity.ok(new JwtResponse(token, userPrinciple.getUsername(),userPrinciple.getAuthorities()));
-        }else {
+    public ResponseEntity<?> login(@RequestBody Account account) {
+        Account acc = accountService.findByEmail(account.getAccountName());
+        boolean match = passwordEncoder.matches(account.getPassword(), acc.getPassword());
+        if (match) {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(account.getAccountName(), account.getPassword())
+            );
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            String token = jwtProvider.createToken(authentication);
+            UserPrinciple userPrinciple = (UserPrinciple) authentication.getPrincipal();
+            return ResponseEntity.ok(new JwtResponse(token, userPrinciple.getUsername(), userPrinciple.getAuthorities()));
+        } else {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
     }
 
     @GetMapping("/{email}")
-    public ResponseEntity<?> getAccount( @PathVariable("email") String email){
-        return new ResponseEntity<>(accountService.findByEmail(email),HttpStatus.OK);
+    public ResponseEntity<?> getAccount(@PathVariable("email") String email) {
+        return new ResponseEntity<>(accountService.findByEmail(email), HttpStatus.OK);
     }
 
 

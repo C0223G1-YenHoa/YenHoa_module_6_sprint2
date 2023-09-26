@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
@@ -43,6 +44,7 @@ public class ReservationController {
     }
 
     @GetMapping("/history")
+    @PreAuthorize("hasRole('ROLE_CUSTOMER')")
     public ResponseEntity<?> history(@RequestParam("id") Long id, @PageableDefault(size=5) Pageable pageable) {
         return new ResponseEntity<>(reservationService.history(id,pageable),HttpStatus.OK);
 
@@ -51,9 +53,10 @@ public class ReservationController {
     public ResponseEntity<?> getQr(@PathVariable("id") Long id) {
         return new ResponseEntity<>(reservationService.getReservation(id),HttpStatus.OK);
     }
-    @GetMapping("/qr/{idCard}/{slotId}/{total}/{numberPlate}/{start}/{end}/")
-    public ResponseEntity<?> confirmQR(@PathVariable("idCard") String idCard,@PathVariable("slotId") Long slotId,@PathVariable("total") Long total,@PathVariable("numberPlate") String numberPlate,@PathVariable("start") String start,@PathVariable("end") String end) {
-        if(reservationService.confirmQR(idCard, slotId, total, numberPlate, start, end).isPresent()){
+    @GetMapping("/qr/{idCard}/{slotId}/{total}/{numberPlate}/{start}/{end}/{floor}")
+    @PreAuthorize("hasRole('ROLE_EMPLOYEE')")
+    public ResponseEntity<?> confirmQR(@PathVariable("idCard") String idCard,@PathVariable("slotId") Long slotId,@PathVariable("total") Long total,@PathVariable("numberPlate") String numberPlate,@PathVariable("start") String start,@PathVariable("end") String end,@PathVariable("floor")Long floor) {
+        if(reservationService.confirmQR(idCard, slotId, total, numberPlate, start, end,floor).isPresent()){
             return new ResponseEntity<>(HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

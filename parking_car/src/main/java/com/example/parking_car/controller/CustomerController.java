@@ -41,22 +41,22 @@ public class CustomerController {
 
     @PostMapping("/{port}")
     public ResponseEntity<Customer> createCustomer(@RequestBody CustomerDto customerdto, @PathVariable("port") String port) throws MessagingException, UnsupportedEncodingException {
-        if(customerService.findCustomerByEmail(customerdto.getEmail())==null){
-        Customer customer = new Customer();
-        customerdto.setExpiryDate(calculateExpiryDate());
-        BeanUtils.copyProperties(customerdto, customer);
-        Account account = new Account();
-        account.setAccountName(customer.getEmail());
-        String encoderNewPassword = passwordEncoder.encode(customer.getAccount().getPassword());
-        account.setPassword(encoderNewPassword);
-        Role role = new Role(1L, "ROLE_CUSTOMER");
-        account.setRole(role);
-        accountService.createAccount(account);
-        customer.setAccount(accountService.findByEmail(account.getAccountName()));
-        customerService.create(customer);
-        customerService.sendVerificationEmail(customer, port);
-        return new ResponseEntity<>(HttpStatus.OK);
-        }else {
+        if (customerService.findCustomerByEmail(customerdto.getEmail()) == null) {
+            Customer customer = new Customer();
+            customerdto.setExpiryDate(calculateExpiryDate());
+            BeanUtils.copyProperties(customerdto, customer);
+            Account account = new Account();
+            account.setAccountName(customer.getEmail());
+            String encoderNewPassword = passwordEncoder.encode(customer.getAccount().getPassword());
+            account.setPassword(encoderNewPassword);
+            Role role = new Role(1L, "ROLE_CUSTOMER");
+            account.setRole(role);
+            accountService.createAccount(account);
+            customer.setAccount(accountService.findByEmail(account.getAccountName()));
+            customerService.create(customer);
+            customerService.sendVerificationEmail(customer, port);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -70,7 +70,7 @@ public class CustomerController {
             } else {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
-        }else {
+        } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }

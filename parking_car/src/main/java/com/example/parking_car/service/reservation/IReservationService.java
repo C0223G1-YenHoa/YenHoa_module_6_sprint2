@@ -18,6 +18,9 @@ public interface IReservationService {
 
     Page<Reservation> history(Long id, Pageable pageable);
 
-    Optional<Reservation> confirmQR( String idCard,Long slotId,Long total,String numberPlate,String start,String end);
+    Optional<Reservation> confirmQR( String idCard,Long slotId,Long total,String numberPlate,String start,String end,Long floor);
     void sendQR(String qr,String email) throws MessagingException, UnsupportedEncodingException;
+
+    List<Reservation> findByIdFloorAndStartAndEnd(Long id,String start,String end);
+
 }

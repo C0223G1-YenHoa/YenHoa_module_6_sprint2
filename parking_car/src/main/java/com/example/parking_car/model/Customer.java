@@ -22,7 +22,7 @@ public class Customer {
 
 
 
-    @OneToOne(optional = false)
+    @OneToOne
     private Account account;
 
     public Customer() {

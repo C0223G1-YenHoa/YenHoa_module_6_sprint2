@@ -29,6 +29,13 @@ public class Reservation {
         this.account = account;
     }
 
+    public Reservation(String endTime, String numberPlate, ParkingSlot parkingSlot, Account account) {
+        this.endTime = endTime;
+        this.numberPlate = numberPlate;
+        this.parkingSlot = parkingSlot;
+        this.account = account;
+    }
+
     public Reservation(Long id, String startTime, String endTime, float totalPrice, String numberPlate, String idCard, ParkingSlot parkingSlot, Account account, Type type) {
         this.id = id;
         this.startTime = startTime;
